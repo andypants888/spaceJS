@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Space Weather</title>
+    <style></style>
+  </head>
+  <body>
+    <div id="navbar-container">
+      <div id="navbar">
+        <ul>
+          <li>Logo</li>
+          <li>Card Title</li>
+          <li>Mars</li>
+          <li>Other</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="main-card"></div>
+    <div id="footer"></div>
+    <script>
+      let currentSpace = function loadSolarPage() {
+        let dailySummaryArray = [];
+
+        let apiRequest = async function sendApiRequest() {
+          let API_KEY = "IltOH3vL9ODoatveN6ZaNL7RFPlvjTGyp6Z6kTT9";
+
+          let response = await fetch(
+            `https://api.nasa.gov/DONKI/notifications?startDate=2021-09-010&endDate=2021-09-17&type=all&api_key=${API_KEY}`
+          );
+
+          let data = await response.json();
+          createDailySummaryObjects(data);
+        }();
+
+        function createDailySummaryObjects(data) {
+          for (let i=0; i<data.length; i++){
+            dailySummaryArray.push({
+                eventName: data[i].messageType,
+                time: data[i].messageIssueTime,
+                icon: `icon: #${i}`,
+                intensity: `display color: #${i}`,
+            })
+          }
+          console.log(dailySummaryArray);
+          console.log(dailySummaryArray.length)
+        };
+      }();
+
+
+      // function paintApiData(data) {
+      //     console.log(data)
+      //     let mainCard = document.getElementById('main-card');
+      //     //need better way to adjust dates shown
+      //     for (let i=0; i<data.length/4; i++) {
+      //         let dailySummary = document.createElement('div');
+      //         let nodeTimeText = document.createTextNode
+      //         (`${data[i].messageIssueTime} ${data[i].messageType}`);
+      //         dailySummary.appendChild(nodeTimeText);
+      //         document.body.insertBefore(dailySummary, mainCard)
+      //         console.log(dailySummary)
+
+      //         console.log(
+      //         'date: ', data[i].messageIssueTime,
+      //         'type: ', data[i].messageType,
+      //         // 'body: ', notification.messageBody,
+      //         )
+      //     }
+      // }
+    </script>
+  </body>
+</html>
