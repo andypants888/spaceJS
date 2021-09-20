@@ -5,7 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Space Weather</title>
-    <style></style>
+    <style>
+      img {
+        width: 50px;
+        background-color: ;
+      }
+    </style>
   </head>
   <body>
     <div id="navbar-container">
@@ -19,57 +24,87 @@
       </div>
     </div>
 
-    <div id="main-card"></div>
-    <div id="footer"></div>
-    <script>
-      let currentSpace = function loadSolarPage() {
-        let dailySummaryArray = [];
+    <div id="main-events">
+      <h1>Space Weather Events</h1>
+      <div class="icons">
+        <!-- <img src="/icons/earth.png" alt="" srcset="" />
+        <img src="/icons/clipboard.png" alt="" srcset="" />
+        <img src="/icons/explosive.png" alt="" srcset="" /> -->
+      </div>
+    </div>
 
-        let apiRequest = async function sendApiRequest() {
+    <div id="footer"></div>
+
+    <script>
+      let solarEventsArray = (function () {
+        let eventsArray = [];
+        let apiRequest = (async function sendApiRequest() {
           let API_KEY = "IltOH3vL9ODoatveN6ZaNL7RFPlvjTGyp6Z6kTT9";
 
           let response = await fetch(
-            `https://api.nasa.gov/DONKI/notifications?startDate=2021-09-010&endDate=2021-09-17&type=all&api_key=${API_KEY}`
+            `https://api.nasa.gov/DONKI/notifications?startDate=2021-09-010&endDate=2021-09-20&type=all&api_key=${API_KEY}`
           );
 
           let data = await response.json();
-          createDailySummaryObjects(data);
-        }();
+          console.log("data: ", data);
+          createDailyEvents(data);
+        })();
 
-        function createDailySummaryObjects(data) {
-          for (let i=0; i<data.length; i++){
-            dailySummaryArray.push({
-                eventName: data[i].messageType,
-                time: data[i].messageIssueTime,
-                icon: `icon: #${i}`,
-                intensity: `display color: #${i}`,
-            })
+        function createDailyEvents(data) {
+          // loop to move api data --> array... could be array.from?
+          for (let i = 0; i < data.length; i++) {
+            eventsArray.push({
+              eventName: data[i].messageType,
+              time: (new Date(data[i].messageIssueTime)).toLocaleString(),
+              message: data[i].messageBody,
+              messageURL: data[i].messageURL,
+              // need education links later/intensity-quick-view?
+            });
           }
-          console.log(dailySummaryArray);
-          console.log(dailySummaryArray.length)
-        };
-      }();
+          // loop to paint each HTML item below previous item
+          //   paintHTML(solarEventsArray[0]);
+          for (let i = 0; i < data.length; i++) {
+            paintHTML(solarEventsArray[i]);
+          }
+        }
 
+        // make HTML element per item, append to main-event below previous element. LOOP at line 62
+        function paintHTML(data) {
+        //   console.log(data);
+          let rootEvents = document.getElementById("main-events");
+          let newEvent = document.createElement("div");
 
-      // function paintApiData(data) {
-      //     console.log(data)
-      //     let mainCard = document.getElementById('main-card');
-      //     //need better way to adjust dates shown
-      //     for (let i=0; i<data.length/4; i++) {
-      //         let dailySummary = document.createElement('div');
-      //         let nodeTimeText = document.createTextNode
-      //         (`${data[i].messageIssueTime} ${data[i].messageType}`);
-      //         dailySummary.appendChild(nodeTimeText);
-      //         document.body.insertBefore(dailySummary, mainCard)
-      //         console.log(dailySummary)
+        // `Event: ${data.eventName}, 
+        //Date: ${data.time}, 
+        //more info: ${data.messageURL}`;
 
-      //         console.log(
-      //         'date: ', data[i].messageIssueTime,
-      //         'type: ', data[i].messageType,
-      //         // 'body: ', notification.messageBody,
-      //         )
-      //     }
-      // }
+          // will add other icons later
+          if (data.eventName === "CME") {
+            newEvent.innerHTML += '<img src="/icons/nuclear-explosion.png"/>';
+            newEvent.innerHTML += ' <strong>Coronal Mass Ejection</strong>';
+            newEvent.innerHTML += '<p>' + data.time + '</p>';
+          } else if (data.eventName === "IPS") {
+            newEvent.innerHTML += '<img src="/icons/explosion.png"/>';
+            newEvent.innerHTML += ' <strong>Interplanetary Shock </strong>';
+            newEvent.innerHTML += '<p>' + data.time + '</p>';
+          } else if (data.eventName === "Report") {
+            newEvent.innerHTML += '<img src="/icons/clipboard.png"/>';
+            newEvent.innerHTML += ' <strong>NASA Report </strong>';
+            newEvent.innerHTML += '<p>' + data.time + '</p>';
+          } else if (data.eventName === "RBE") {
+            newEvent.innerHTML += '<img src="/icons/earth.png"/>';
+            newEvent.innerHTML += ' <strong>Radiation Belt Enhancement </strong>';
+            newEvent.innerHTML += '<p>' + data.time + '</p>';
+          }
+
+          rootEvents.appendChild(newEvent);
+          //need better way to adjust dates shown
+        }
+        // console.log(solarEventsArray[0])
+        // paintHTML(solarEventsArray[0]);
+
+        return eventsArray;
+      })();
     </script>
   </body>
 </html>
