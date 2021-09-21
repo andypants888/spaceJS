@@ -6,31 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Space Weather</title>
     <style>
-      img {
+      body {
+          box-sizing: border-box;
+      }
+      #navbar {
+        background-color: red;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        font-size: 20px;
+        list-style-type: none;
+      }
+      .icons {
         width: 50px;
         background-color: ;
+      }
+      h3 {
+          font-size: 20px;
+      }
+      .main-event {
+        border-style: solid;
+        border-color: red;
+        border-radius: 5px;
+        margin-bottom: 10px;
       }
     </style>
   </head>
   <body>
     <div id="navbar-container">
-      <div id="navbar">
-        <ul>
-          <li>Logo</li>
-          <li>Card Title</li>
-          <li>Mars</li>
-          <li>Other</li>
-        </ul>
-      </div>
+      <ul id="navbar">
+        <img class="icons" src="/icons/solar-system.png" alt="">
+        <li>Solar</li>
+        <li>Mars</li>
+        <li>Other</li>
+      </ul>
     </div>
 
     <div id="main-events">
-      <h1>Space Weather Events</h1>
-      <div class="icons">
-        <!-- <img src="/icons/earth.png" alt="" srcset="" />
-        <img src="/icons/clipboard.png" alt="" srcset="" />
-        <img src="/icons/explosive.png" alt="" srcset="" /> -->
-      </div>
+      <h1>Space Weather Events (Solar)</h1>
     </div>
 
     <div id="footer"></div>
@@ -55,54 +68,55 @@
           for (let i = 0; i < data.length; i++) {
             eventsArray.push({
               eventName: data[i].messageType,
-              time: (new Date(data[i].messageIssueTime)).toLocaleString(),
+              time: new Date(data[i].messageIssueTime).toLocaleString("en-US", {
+                weekday: "short",
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              }),
               message: data[i].messageBody,
               messageURL: data[i].messageURL,
-              // need education links later/intensity-quick-view?
             });
           }
+
           // loop to paint each HTML item below previous item
-          //   paintHTML(solarEventsArray[0]);
           for (let i = 0; i < data.length; i++) {
             paintHTML(solarEventsArray[i]);
           }
         }
 
-        // make HTML element per item, append to main-event below previous element. LOOP at line 62
         function paintHTML(data) {
-        //   console.log(data);
+          //   console.log(data);
           let rootEvents = document.getElementById("main-events");
           let newEvent = document.createElement("div");
+          newEvent.className = 'main-event';
 
-        // `Event: ${data.eventName}, 
-        //Date: ${data.time}, 
-        //more info: ${data.messageURL}`;
-
-          // will add other icons later
+          // will add other icons later, reduce code...?
           if (data.eventName === "CME") {
-            newEvent.innerHTML += '<img src="/icons/nuclear-explosion.png"/>';
-            newEvent.innerHTML += ' <strong>Coronal Mass Ejection</strong>';
-            newEvent.innerHTML += '<p>' + data.time + '</p>';
+            newEvent.innerHTML +=
+              `<h3><img class="icons" src="/icons/nuclear-explosion.png"/> Coronal Mass Ejection (CME)</h3>`;
+            newEvent.innerHTML += "<p>" + data.time + "</p>";
+            newEvent.innerHTML += `<a href="${data.messageURL}">Detailed View</a>`;
           } else if (data.eventName === "IPS") {
-            newEvent.innerHTML += '<img src="/icons/explosion.png"/>';
-            newEvent.innerHTML += ' <strong>Interplanetary Shock </strong>';
-            newEvent.innerHTML += '<p>' + data.time + '</p>';
+            newEvent.innerHTML +=
+              `<h3><img class="icons" src="/icons/explosion.png"/> Interplanetary Shock (IPS)</h3>`;
+            newEvent.innerHTML += "<p>" + data.time + "</p>";
+            newEvent.innerHTML += `<a href="${data.messageURL}">Detailed View</a>`;
           } else if (data.eventName === "Report") {
-            newEvent.innerHTML += '<img src="/icons/clipboard.png"/>';
-            newEvent.innerHTML += ' <strong>NASA Report </strong>';
-            newEvent.innerHTML += '<p>' + data.time + '</p>';
+            newEvent.innerHTML += `<h3><img class="icons" src="/icons/clipboard.png"/> NASA Report </h3>`;
+            newEvent.innerHTML += "<p>" + data.time + "</p>";
+            newEvent.innerHTML += `<a href="${data.messageURL}">Detailed View</a>`;
           } else if (data.eventName === "RBE") {
-            newEvent.innerHTML += '<img src="/icons/earth.png"/>';
-            newEvent.innerHTML += ' <strong>Radiation Belt Enhancement </strong>';
-            newEvent.innerHTML += '<p>' + data.time + '</p>';
+            newEvent.innerHTML +=
+              `<h3><img class="icons" src="/icons/earth.png"/> Radiation Belt Enhancement (RBE)</h3>`;
+            newEvent.innerHTML += "<p>" + data.time + "</p>";
+            newEvent.innerHTML += `<a href="${data.messageURL}">Detailed View</a>`;
           }
 
           rootEvents.appendChild(newEvent);
-          //need better way to adjust dates shown
         }
-        // console.log(solarEventsArray[0])
-        // paintHTML(solarEventsArray[0]);
-
         return eventsArray;
       })();
     </script>
