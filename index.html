@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Space Weather</title>
     <style>
+      html {
+        /* Need to fix color scheme later */
+        /* background-color: black; */
+      }
       body {
           box-sizing: border-box;
       }
@@ -53,9 +57,9 @@
         let eventsArray = [];
         let apiRequest = (async function sendApiRequest() {
           let API_KEY = "IltOH3vL9ODoatveN6ZaNL7RFPlvjTGyp6Z6kTT9";
-
+          let today = (new Date()).toISOString();
           let response = await fetch(
-            `https://api.nasa.gov/DONKI/notifications?startDate=2021-09-010&endDate=2021-09-20&type=all&api_key=${API_KEY}`
+            `https://api.nasa.gov/DONKI/notifications?startDate=YYYY-MM-DD&endDate=${today}&type=all&api_key=${API_KEY}`
           );
 
           let data = await response.json();
@@ -74,7 +78,7 @@
                 day: "numeric",
                 year: "numeric",
                 hour: "numeric",
-                minute: "numeric",
+                // minute: "numeric",
               }),
               message: data[i].messageBody,
               messageURL: data[i].messageURL,
