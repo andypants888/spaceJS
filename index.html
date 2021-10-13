@@ -43,7 +43,7 @@
   <body>
     <div id="navbar-container">
       <ul id="navbar">
-        <img class="icons" src="/icons/solar-system.png" alt="" />
+        <img class="icons" src="./icons/solar-system.png" alt="" />
         <li>Solar</li>
         <li>Mars</li>
         <li>Other</li>
@@ -90,19 +90,19 @@
 
           // will add other icons later, reduce code...?
           if (data.messageType === "CME") {
-            newEvent.innerHTML += `<h3><img class="icons" src="/icons/nuclear-explosion.png"/> Coronal Mass Ejection (CME)</h3>`;
+            newEvent.innerHTML += `<h3><img class="icons" src="./icons/nuclear-explosion.png"/> Coronal Mass Ejection (CME)</h3>`;
             newEvent.innerHTML += "<p>" + eventDate + "</p>";
             newEvent.innerHTML += `<a href="${data.messageURL}">Detailed View</a>`;
           } else if (data.messageType === "IPS") {
-            newEvent.innerHTML += `<h3><img class="icons" src="/icons/explosion.png"/> Interplanetary Shock (IPS)</h3>`;
+            newEvent.innerHTML += `<h3><img class="icons" src="./icons/explosion.png"/> Interplanetary Shock (IPS)</h3>`;
             newEvent.innerHTML += "<p>" + eventDate + "</p>";
             newEvent.innerHTML += `<a href="${data.messageURL}">Detailed View</a>`;
           } else if (data.messageType === "Report") {
-            newEvent.innerHTML += `<h3><img class="icons" src="/icons/clipboard.png"/> NASA Report </h3>`;
+            newEvent.innerHTML += `<h3><img class="icons" src="./icons/clipboard.png"/> NASA Report </h3>`;
             newEvent.innerHTML += "<p>" + eventDate + "</p>";
             newEvent.innerHTML += `<a href="${data.messageURL}">Detailed View</a>`;
           } else if (data.messageType === "RBE") {
-            newEvent.innerHTML += `<h3><img class="icons" src="/icons/earth.png"/> Radiation Belt Enhancement (RBE)</h3>`;
+            newEvent.innerHTML += `<h3><img class="icons" src="./icons/earth.png"/> Radiation Belt Enhancement (RBE)</h3>`;
             newEvent.innerHTML += "<p>" + eventDate + "</p>";
             newEvent.innerHTML += `<a href="${data.messageURL}">Detailed View</a>`;
           }
