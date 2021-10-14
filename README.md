@@ -1,12 +1,10 @@
-Title: spaceJS
+# spaceJS
 
-Short: App with simplified interface to view & learn about space weather events.
+##### [Main repo link](https://github.com/andypants888/space-weather)
 
-Long : This is a prototype demo using vanilla JS for the 'main' page of the app.
+##### vanillaJS Demo version of a main space-weather app.
 
-Skills used in this demo:
- API Calls using Fetch, Async Await
- Creating series of Objects using a loop
+### [Please view most current app here](https://github.com/andypants888/space-weather)
 
 License:
  Copyright Andrew Zhou 2021
